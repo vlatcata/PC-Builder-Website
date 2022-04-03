@@ -1,0 +1,84 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+/*  margin-bottom: 60px;*/
+}
+
+.span.badge.badge-success {
+    float: left
+}
+
+.cart-image{
+    width: 150px;
+}
+
+.cart-details-btn{
+    padding-top: 480px;
+}
+
+.btn-edit-cancel{
+    margin-left: 410px;
+    margin-top: -60px;
+    padding-left: 40px;
+    padding-right: 40px
+}
+
+.aditional-buttons{
+    margin-bottom: 20px
+}
+
+.img-cpu{
+    max-width: 115px;
+    max-height: 115px
+}
+
+.sidebar-cart{
+    padding: 5px;
+}
+
+.cart-total-price{
+    padding-left: 10px;
+    padding-top: 20px
+}
+
+.clear-cart-btn {
+    position: relative;
+    left: 1330px;
+    bottom: 6px;
+}
+
+.details-component{
+    padding-left: 300px;
+    padding-right: 300px;
+    padding-bottom: 20px;
+}
+
+.build-pc-button {
+    position: relative;
+    left: 1140px;
+    bottom: 6px;
+}
+
+.computer-details-price{
+    padding-left: 12px
+}
+
+.computer-details-img {
+    width: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

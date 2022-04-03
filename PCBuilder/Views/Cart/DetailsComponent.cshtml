@@ -1,0 +1,50 @@
+﻿@using PCBuilder.Core.Models.Cart
+@model AddComponentViewModel
+
+<div class="details-component">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Component Details</h3>
+        </div>
+        <form>
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="Category">Category</label>
+                    <label asp-for="Category" class="form-control">@Model.Category</label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Model">Model</label>
+                    <label asp-for="Model" class="form-control">@Model.Model</label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Manufacturer">Manufacturer</label>
+                    <label asp-for="Manufacturer" class="form-control">@Model.Manufacturer</label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl">Image</label>
+                    <label asp-for="ImageUrl" class="form-control">@Model.ImageUrl</label>
+                    <img asp-for="ImageUrl" src="@Model.ImageUrl" style="width:200px;" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price">Price</label>
+                    <label asp-for="Price" class="form-control">@Model.Price</label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Specifications">Specifications: </label>
+
+                    <br />
+
+                    @for (var i = 0; i < Model.Specifications.Count; i++)
+                    {
+                        <input asp-for="@Model.Specifications[i].Id" type="hidden" />
+                        <label asp-for="@Model.Specifications[i].Title" class="form-control">@Model.Specifications[i].Title: @Model.Specifications[i].Description</label>
+                    }
+                </div>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Close</a>
+            </div>
+        </form>
+    </div>
+</div>
+

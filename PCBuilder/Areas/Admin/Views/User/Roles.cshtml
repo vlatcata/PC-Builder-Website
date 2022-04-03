@@ -1,0 +1,33 @@
+﻿@using PCBuilder.Core.Models
+@model UserRolesViewModel
+
+@{
+    ViewData["Title"] = "User Roles";
+    var roles = (List<SelectListItem>)ViewBag.RoleItems;
+}
+
+<div class="row">
+    <div class="col-4">
+        <form id="roles" method="post">
+            <input type="hidden" name="UserId" value="@Model.UserId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <h5>User: @Html.DisplayFor(m => m.Name)</h5>
+            </div>
+            <div class="form-floating">
+                <div class="form-group">
+                    <label>User Roles</label>
+                    <select asp-for="RoleIds" asp-items="@roles" multiple="" class="form-control">
+                       
+                    </select>
+                </div>
+            </div>
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-4">
+                    <button id="login-submit" type="submit" class="btn btn-primary btn-block">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

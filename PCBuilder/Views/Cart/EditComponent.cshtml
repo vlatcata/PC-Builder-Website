@@ -1,0 +1,65 @@
+﻿@using PCBuilder.Core.Models.Cart
+@model AddComponentViewModel
+
+<div class="details-component">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Component Details</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="Category">Category</label>
+                    <label asp-for="Category" class="form-control">@Model.Category</label>
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Model">Model</label>
+                    <input asp-for="Model" type="text" name="Model" class="form-control" value="@Model.Model">
+                    <span asp-validation-for="Model" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Manufacturer">Manufacturer</label>
+                    <input asp-for="Manufacturer" type="text" name="Manufacturer" class="form-control" value="@Model.Manufacturer">
+                    <span asp-validation-for="Manufacturer" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl">Image</label>
+                    <input asp-for="ImageUrl" type="text" name="ImageUrl" class="form-control" value="@Model.ImageUrl">
+                    <img asp-for="ImageUrl" src="@Model.ImageUrl" style="width:200px;" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price">Price</label>
+                    <input asp-for="Price" type="text" name="Price" class="form-control" value="@Model.Price">
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Specifications">Specifications: </label>
+
+                    @for (var i = 0; i < Model.Specifications.Count; i++)
+                    {
+                        <br />
+
+                        <input asp-for="@Model.Specifications[i].Id" type="hidden" />
+                        <label asp-for="@Model.Specifications[i].Title">Name</label>
+                        <input asp-for="@Model.Specifications[i].Title" type="text" class="form-control" value="@Model.Specifications[i].Title">
+                        <span asp-validation-for="@Model.Specifications[i].Title" class="text-danger"></span>
+
+                        <label asp-for="@Model.Specifications[i].Description">Description</label>
+                        <input asp-for="@Model.Specifications[i].Description" type="text" class="form-control" value="@Model.Specifications[i].Description">
+                        <span asp-validation-for="@Model.Specifications[i].Title" class="text-danger"></span>
+                    }
+                </div>
+            </div>
+            <div class="card-footer">
+                <button asp-controller="Cart" asp-action="EditComponent" method="post" type="submit" class="btn btn-secondary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

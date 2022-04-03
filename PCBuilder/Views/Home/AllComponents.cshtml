@@ -1,0 +1,88 @@
+﻿@using PCBuilder.Core.Models.Cart
+@model List<AddComponentViewModel>
+
+@{
+    string categoryName = $"{Model.First().Category.ToString()}'s";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">@categoryName</h3>
+
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 1%">
+                        #
+                    </th>
+                    <th style="width: 35%">
+                        Component
+                    </th>
+                    <th style="width: 30%">
+                        Image
+                    </th>
+                    <th style="width: 35%">
+                        InStock
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var component in @Model)
+                {
+                    <tr>
+                        <td>
+                            #
+                        </td>
+                        <td>
+                            <a style="font-size: 25px">
+                                @component.Manufacturer @component.Model
+                            </a>
+                            <br />
+                            <small style="font-size: 13px">
+                                Price: @component.Price $
+                            </small>
+                        </td>
+                        <td>
+                            <img class="cart-image" src="@component.ImageUrl" />
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success" style="float: left">Available</span>
+                        </td>
+                        <td class="project-actions text-right right-icons" style="border-spacing: 5px 3rem;">
+                            <a class="btn btn-primary btn-sm" asp-controller="Cart" asp-action="DetailsComponent" asp-route-id="@component.Id">
+                                <i class="fas fa-folder"></i>
+                                Details
+                            </a>
+                            <a class="btn btn-info btn-sm" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@component.Id">
+                                <i class="fas fa-cart-plus"></i>
+                                Add to cart
+                            </a>
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="RemoveComponent" asp-route-id="@component.Id">
+                                    <i class="fas fa-trash"></i>
+                                    Remove
+                                </a>
+                                <a class="btn btn-info btn-sm btn-edit" asp-controller="Cart" asp-action="EditComponent" asp-route-id="@component.Id">
+                                    <i class="fas fa-pencil-alt"></i>
+                                    Edit
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

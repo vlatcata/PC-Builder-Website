@@ -1,0 +1,41 @@
+﻿@using PCBuilder.Core.Models.Home
+@model ComputerViewModel
+
+<div class="details-component">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Computer Specifications</h3>
+        </div>
+        <form>
+            <div class="card-body">
+                @foreach (var component in @Model.Components)
+                {
+                    <div class="form-group">
+                        
+                        <label class="btn btn-block bg-gradient-info btn-lg">@component.Category: @component.Model</label>
+                        <img asp-for="ImageUrl" src="@component.ImageUrl" class="computer-details-img" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@component.Specifications">Specifications: </label>
+
+                        <br />
+
+                        @for (var i = 0; i < @component.Specifications.Count; i++)
+                        {
+                            <input asp-for="@component.Specifications[i].Id" type="hidden" />
+                            <label asp-for="@component.Specifications[i].Title" class="form-control">@component.Specifications[i].Title: @component.Specifications[i].Description</label>
+                        }
+
+                        <label asp-for="@component.Price" class="btn btn-block btn-outline-primary computer-details-price">Price: @component.Price</label>
+                        <br />
+
+                    </div>
+                }
+                <label class="btn btn-block btn-outline-primary btn-lg">Total Cost: @Model.Price</label>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="Home" asp-action="Computers" class="btn btn-secondary">Close</a>
+            </div>
+        </form>
+    </div>
+</div>

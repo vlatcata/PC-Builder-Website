@@ -1,0 +1,91 @@
+﻿@using PCBuilder.Core.Constants
+@using PCBuilder.Core.Models.Cart
+@model CartViewModel
+
+@{
+
+}
+
+<div class="card">
+    <div class="card-header">
+
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 1%">
+                        #
+                    </th>
+                    <th style="width: 35%">
+                        Component
+                    </th>
+                    <th style="width: 30%">
+                        Image
+                    </th>
+                    <th style="width: 35%">
+                        InStock
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var component in Model.Components)
+                {
+                    <tr>
+                        <td>
+                            #
+                        </td>
+                        <td>
+                            <a>
+                                @component.Manufacturer @component.Model
+                            </a>
+                            <br />
+                            <small>
+                                @component.Price $$
+                            </small>
+                        </td>
+                        <td>
+                            <img class="cart-image" src="@component.ImageUrl" />
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success" style="float: left">Available</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a class="btn btn-primary btn-sm" asp-controller="Cart" asp-action="DetailsComponent" asp-route-id="@component.Id">
+                                <i class="fas fa-folder"></i>
+                                Details
+                            </a>
+                            <a class="btn btn-info btn-sm" asp-controller="Cart" asp-action="ReplaceComponent" asp-route-id="@component.Id">
+                                <i class="fas fa-pencil-alt"></i>
+                                Replace
+                            </a>
+                            <a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@component.Id">
+                                <i class="fas fa-trash"></i>
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <label class="btn-outline-primary">Total Cost: @Model.TotalPrice</label>
+
+        <a class="btn btn-primary btn-sm clear-cart-btn" asp-controller="Cart" asp-action="ClearCart" asp-route-id="@Model.CartId.ToString()">
+            <i class="fas fa-eraser"></i>
+            Clear Cart
+        </a>
+        <a class="btn btn-info btn-sm build-pc-button" href="/Home/BuildComputer">
+            <i class="fas fa-tools"></i>
+            Build PC
+        </a>
+    </div>
+</div>
