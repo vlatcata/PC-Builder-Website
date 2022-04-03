@@ -144,51 +144,5 @@ namespace PCBuilder.Core.Services
 
             return computers;
         }
-
-        public string CheckAllComponents(string userId)
-        {
-            var result = "Everything fits";
-
-            var cpu = GetComponentFromCart(userId, "CPU");
-            var gpu = GetComponentFromCart(userId, "GPU");
-            var motherboard = GetComponentFromCart(userId, "Motherboard");
-            var ram = GetComponentFromCart(userId, "RAM");
-            var powersupply = GetComponentFromCart(userId, "Power Supply");
-            var ssd = GetComponentFromCart(userId, "SSD");
-            var pccase = GetComponentFromCart(userId, "Case");
-
-            var caseType = pccase.Specifications.Where(s => s.Title.ToString() == "Type").FirstOrDefault();
-            var caseSizes = pccase.Specifications.Where(s => s.Title.ToString() == "Supports").FirstOrDefault();
-            var gpuCaseType = gpu.Specifications.Where(s => s.Title.ToString() == "Case Type").FirstOrDefault();
-
-            var motherboardCaseType = motherboard.Specifications.Where(s => s.Title.ToString() == "Case Type").FirstOrDefault();
-            var motherboardChipset = motherboard.Specifications.Where(s => s.Title.ToString() == "Chipset").FirstOrDefault();
-
-            var cpuChipset = cpu.Specifications.Where(s => s.Title.ToString() == "Chipset").FirstOrDefault();
-
-            var powerSupplyCaseType = motherboard.Specifications.Where(s => s.Title.ToString() == "Case Type").FirstOrDefault();
-
-            if (!caseSizes.Description.Contains(gpuCaseType.Description))
-            {
-                result = "This Video Card cannot fit in this case.";
-            }
-
-            if (!caseSizes.Description.Contains(motherboardCaseType.Description))
-            {
-                result = "This Motherboard cannot fit in this case.";
-            }
-
-            if (!caseSizes.Description.Contains(powerSupplyCaseType.Description))
-            {
-                result = "This Power Supply cannot fit in this case.";
-            }
-
-            if (cpuChipset.Description != motherboardChipset.Description)
-            {
-                result = "This CPU cannot go on this Motherboard";
-            }
-
-            return result;
-        }
     }
 }

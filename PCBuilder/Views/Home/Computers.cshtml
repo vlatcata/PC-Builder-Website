@@ -1,29 +1,44 @@
 ﻿@using PCBuilder.Core.Models.Home
 @model List<ComputerViewModel>
 
-@{
-
-}
-
-<div class="col-12">
-    <div class="card card-primary">
-        <div class="card-header">
-            <h4 class="card-title">Your Computers</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                @foreach (var computer in Model)
-                {
-                    <div class="col-sm-2">
-                        <label>@computer.Components.First().Model</label>
-
-                        <a data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
-                            <img src="https://visualpharm.com/assets/966/Computer-595b40b65ba036ed117d438b.svg" class="img-fluid mb-2" alt="white sample">
-                        </a>
-                        <a asp-controller="Home" asp-action="DetailsComputer" asp-route-id="@computer.Id" class="btn btn-block btn-outline-info btn-xs">Details</a>
-                    </div>
-                }
+@if (Model.Count <= 0)
+{
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h4 class="card-title">Your Computers</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <h3>You don't have any computers at the moment</h3>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h4 class="card-title">Your Computers</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @foreach (var computer in Model)
+                    {
+                        <div class="col-sm-2">
+                            <label>@computer.Components.Where(c => c.Category == "GPU").First().Model</label>
+
+                            <a data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                                <img src="@computer.Components.Where(c => c.Category == "Case").First().ImageUrl" class="img-fluid mb-2" alt="white sample">
+                            </a>
+                            <a asp-controller="Home" asp-action="DetailsComputer" asp-route-id="@computer.Id" class="btn btn-block btn-outline-info btn-xs">Details</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

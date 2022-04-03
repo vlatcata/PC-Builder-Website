@@ -12,14 +12,14 @@ namespace PCBuilder.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> logger;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ICartService cartService;
         private readonly IComputerService computerService;
 
-        public HomeController(ILogger<HomeController> logger, ICartService _cartService, UserManager<ApplicationUser> _userManager, IComputerService _computerService)
+        public HomeController(ILogger<HomeController> _logger, ICartService _cartService, UserManager<ApplicationUser> _userManager, IComputerService _computerService)
         {
-            _logger = logger;
+            logger = _logger;
             cartService = _cartService;
             userManager = _userManager;
             computerService = _computerService;
@@ -59,22 +59,16 @@ namespace PCBuilder.Controllers
         public async Task<IActionResult> BuildComputer()
         {
             var user = userManager.GetUserAsync(User).Result;
-            var components = cartService.GetCartComponents(user.Id.ToString()).Result;
+            var cart = cartService.GetCartComponents(user.Id.ToString()).Result;
 
-            var result = computerService.CheckAllComponents(user.Id.ToString());
-            if (result != "Everything fits")
+            if (cart.Components.Count < 7)
             {
-                ViewData[MessageConstant.ErrorMessage] = result;
+                return Redirect("/Cart/Cart");
             }
 
-            if (await computerService.BuildComputer(components))
+            if (await computerService.BuildComputer(cart))
             {
-                await cartService.ClearCart(components.CartId.ToString());
-                ViewData[MessageConstant.SuccessMessage] = "Computer was created successfully!";
-            }
-            else
-            {
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
+                await cartService.ClearCart(cart.CartId.ToString());
             }
 
             return RedirectToAction("Computers");
@@ -111,7 +105,7 @@ namespace PCBuilder.Controllers
             return View("ErrorCustom");
         }
 
-        public async Task<IActionResult> Ram()
+        public async Task<IActionResult> Rams()
         {
             var components = await cartService.GetAllComponents("RAM");
 

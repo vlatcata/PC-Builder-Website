@@ -1,4 +1,5 @@
 ﻿using PCBuilder.Core.Models.Cart;
+using System.ComponentModel;
 
 namespace PCBuilder.Core.Contracts
 {
@@ -9,12 +10,11 @@ namespace PCBuilder.Core.Contracts
         Task<List<AddComponentViewModel>> GetAllComponents(string name);
         Task<AddComponentViewModel> GetComponent(string id);
         Task<bool> EditComponent(AddComponentViewModel model);
-        Task<bool> RemoveComponent(Guid id);
-        Task<bool> AddToCart(string userId, string productId);
+        Task<(bool, string)> RemoveComponent(Guid id);
+        Task<(bool, string)> AddToCart(string userId, string productId);
         Task<CartViewModel> GetCartComponents(string userId);
-        Task<bool> RemoveFromCart(string userId, string productId);
+        Task<(bool, string)> RemoveFromCart(string userId, string productId);
         Task<bool> ClearCart(string cartId);
-
         bool IsComponentInCart(string userId, string componentId);
     }
 }

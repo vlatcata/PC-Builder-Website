@@ -28,6 +28,15 @@ namespace PCBuilder.Controllers
             var user = await userManager.GetUserAsync(User);
             var cart = await cartService.GetCartComponents(user.Id);
 
+            if (cart.Components.Count < 7)
+            {
+                ViewData[MessageConstant.ErrorMessage] = "You need to have every component to build a PC";
+            }
+            else
+            {
+                ViewData[MessageConstant.SuccessMessage] = "You have everything needed to build a computer (press the \"Build PC\" button)";
+            }
+
             return View(cart);
         }
 
@@ -57,7 +66,7 @@ namespace PCBuilder.Controllers
                 ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
             }
 
-            return Redirect("/Home/Index");
+            return View(viewModel);
         }
 
         public async Task<IActionResult> DetailsComponent(string id)
@@ -87,13 +96,14 @@ namespace PCBuilder.Controllers
                 ViewData[MessageConstant.ErrorMessage] = "Component Information was not updated";
             }
 
-            return Redirect("/Home/Index");
+            return View(viewModel);
         }
 
         [Authorize(Roles = UserConstants.Roles.Administrator)]
         public async Task<IActionResult> RemoveComponent(Guid id)
         {
-            if (await cartService.RemoveComponent(id))
+            (var componentRemoved, var category) = await cartService.RemoveComponent(id);
+            if (componentRemoved)
             {
                 ViewData[MessageConstant.SuccessMessage] = "Component was deleted";
             }
@@ -102,7 +112,7 @@ namespace PCBuilder.Controllers
                 ViewData[MessageConstant.ErrorMessage] = "Component was not deleted";
             }
 
-            return Redirect("/Home/Index");
+            return Redirect($"/Home/{category}s");
         }
 
         public async Task<IActionResult> AddToCart(Guid id)
@@ -113,8 +123,10 @@ namespace PCBuilder.Controllers
             {
                 ViewData[MessageConstant.ErrorMessage] = "You already have component of this category";
             }
-            
-            if(await cartService.AddToCart(user.Id, id.ToString()))
+
+            (var componentAdded, var categoryName) = await cartService.AddToCart(user.Id, id.ToString());
+
+            if (componentAdded)
             {
                 ViewData[MessageConstant.SuccessMessage] = "Component added to cart";
             }
@@ -123,14 +135,16 @@ namespace PCBuilder.Controllers
                 ViewData[MessageConstant.ErrorMessage] = "You already have component of this category";
             }
 
-            return RedirectToAction("Cart");
+            return Redirect($"/Home/{categoryName}s");
         }
 
         public async Task<IActionResult> RemoveFromCart(Guid id)
         {
             var user = await userManager.GetUserAsync(User);
 
-            if (await cartService.RemoveFromCart(user.Id, id.ToString()))
+            (bool result, string categoryName) = await cartService.RemoveFromCart(user.Id, id.ToString());
+
+            if (result)
             {
                 ViewData[MessageConstant.SuccessMessage] = "Component removed Successfully";
             }
@@ -159,9 +173,22 @@ namespace PCBuilder.Controllers
             return RedirectToAction("Cart");
         }
 
-        public IActionResult ReplaceComponent(string id)
+        public async Task<IActionResult> ReplaceComponent(Guid id)
         {
-            return View();
+            var user = await userManager.GetUserAsync(User);
+
+            (bool result, string categoryName) = await cartService.RemoveFromCart(user.Id, id.ToString());
+
+            if (result)
+            {
+                ViewData[MessageConstant.SuccessMessage] = "Component was replaced";
+            }
+            else
+            {
+                ViewData[MessageConstant.ErrorMessage] = "Component was not replaced";
+            }
+
+            return Redirect($"/Home/{categoryName}s");
         }
     }
 }
