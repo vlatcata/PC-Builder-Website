@@ -28,9 +28,11 @@ namespace PCBuilder.Controllers
             var user = await userManager.GetUserAsync(User);
             var cart = await cartService.GetCartComponents(user.Id);
 
+            var missingComponents = cartService.CheckMissingComponents(user.Id);
+
             if (cart.Components.Count < 7)
             {
-                ViewData[MessageConstant.ErrorMessage] = "You need to have every component to build a PC";
+                ViewData[MessageConstant.ErrorMessage] = $"You need to have every component to build a PC, you are missing: {missingComponents}";
             }
             else
             {
@@ -102,7 +104,7 @@ namespace PCBuilder.Controllers
         [Authorize(Roles = UserConstants.Roles.Administrator)]
         public async Task<IActionResult> RemoveComponent(Guid id)
         {
-            (var componentRemoved, var category) = await cartService.RemoveComponent(id);
+            (var componentRemoved, var categoryName) = await cartService.RemoveComponent(id);
             if (componentRemoved)
             {
                 ViewData[MessageConstant.SuccessMessage] = "Component was deleted";
@@ -112,7 +114,7 @@ namespace PCBuilder.Controllers
                 ViewData[MessageConstant.ErrorMessage] = "Component was not deleted";
             }
 
-            return Redirect($"/Home/{category}s");
+            return Redirect($"/Home/GetAllComponents?category={categoryName}");
         }
 
         public async Task<IActionResult> AddToCart(Guid id)
@@ -135,7 +137,7 @@ namespace PCBuilder.Controllers
                 ViewData[MessageConstant.ErrorMessage] = "You already have component of this category";
             }
 
-            return Redirect($"/Home/{categoryName}s");
+            return Redirect($"/Home/GetAllComponents?category={categoryName}");
         }
 
         public async Task<IActionResult> RemoveFromCart(Guid id)
@@ -188,7 +190,7 @@ namespace PCBuilder.Controllers
                 ViewData[MessageConstant.ErrorMessage] = "Component was not replaced";
             }
 
-            return Redirect($"/Home/{categoryName}s");
+            return Redirect($"/Home/GetAllComponents?category={categoryName}");
         }
     }
 }

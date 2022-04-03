@@ -305,6 +305,7 @@ namespace PCBuilder.Core.Services
 
             var cart = await repo.All<Cart>()
                 .Where(c => c.UserId == userId)
+                .Include(c => c.Components)
                 .Select(c => new CartViewModel()
                 {
                     UserId = userId,
@@ -351,6 +352,36 @@ namespace PCBuilder.Core.Services
             }
 
             return cart;
+        }
+
+        public string CheckMissingComponents(string userId)
+        {
+            var cart = GetCart(userId);
+
+            StringBuilder sb = new StringBuilder();
+
+            List<string> missingCategories = new List<string>();
+
+            List<string> allCategories = repo.All<Category>()
+                .Select(c => c.Name)
+                .ToList();
+
+            List<string> cartCategories = cart.Components
+                .Select(c => c.Category.Name)
+                .ToList();
+
+            foreach (var category in allCategories)
+            {
+                if (!cartCategories.Contains(category))
+                {
+                    missingCategories.Add(category);
+                    sb.Append($"{category}, ");
+                }
+            }
+
+            sb.Length-=2;
+
+            return sb.ToString().TrimEnd();
         }
 
         public async Task<(bool, string)> RemoveFromCart(string userId, string componentId)

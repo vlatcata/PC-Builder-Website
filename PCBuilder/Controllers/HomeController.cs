@@ -81,81 +81,9 @@ namespace PCBuilder.Controllers
             return View(computer);
         }
 
-        public async Task<IActionResult> Cpus()
+        public async Task<IActionResult> GetAllComponents(string category)
         {
-            var components = await cartService.GetAllComponents("CPU");
-
-            if (components != null && components.Count > 0)
-            {
-                return View("AllComponents", components);
-            }
-
-            return View("ErrorCustom");
-        }
-
-        public async Task<IActionResult> Gpus()
-        {
-            var components = await cartService.GetAllComponents("GPU");
-
-            if (components != null && components.Count > 0)
-            {
-                return View("AllComponents", components);
-            }
-
-            return View("ErrorCustom");
-        }
-
-        public async Task<IActionResult> Rams()
-        {
-            var components = await cartService.GetAllComponents("RAM");
-
-            if (components != null && components.Count > 0)
-            {
-                return View("AllComponents", components);
-            }
-
-            return View("ErrorCustom");
-        }
-
-        public async Task<IActionResult> Motherboards()
-        {
-            var components = await cartService.GetAllComponents("Motherboard");
-
-            if (components != null && components.Count > 0)
-            {
-                return View("AllComponents", components);
-            }
-
-            return View("ErrorCustom");
-        }
-
-        public async Task<IActionResult> Cases()
-        {
-            var components = await cartService.GetAllComponents("Case");
-
-            if (components != null && components.Count > 0)
-            {
-                return View("AllComponents", components);
-            }
-
-            return View("ErrorCustom");
-        }
-
-        public async Task<IActionResult> PowerSupplies()
-        {
-            var components = await cartService.GetAllComponents("Power Supply");
-
-            if (components != null && components.Count > 0)
-            {
-                return View("AllComponents", components);
-            }
-
-            return View("ErrorCustom");
-        }
-
-        public async Task<IActionResult> Ssds()
-        {
-            var components = await cartService.GetAllComponents("SSD");
+            var components = await cartService.GetAllComponents(category);
 
             if (components != null && components.Count > 0)
             {

@@ -1,5 +1,4 @@
 ﻿using PCBuilder.Core.Models.Cart;
-using System.ComponentModel;
 
 namespace PCBuilder.Core.Contracts
 {
@@ -16,5 +15,6 @@ namespace PCBuilder.Core.Contracts
         Task<(bool, string)> RemoveFromCart(string userId, string productId);
         Task<bool> ClearCart(string cartId);
         bool IsComponentInCart(string userId, string componentId);
+        string CheckMissingComponents(string userId);
     }
 }
