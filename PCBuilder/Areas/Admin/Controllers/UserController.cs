@@ -44,7 +44,6 @@ namespace PCBuilder.Areas.Admin.Controllers
                 Name = $"{user.FirstName} {user.LastName}"
             };
 
-
             ViewBag.RoleItems = roleManager.Roles
                 .ToList()
                 .Select(r => new SelectListItem()
@@ -55,6 +54,21 @@ namespace PCBuilder.Areas.Admin.Controllers
                 }).ToList();
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Roles(UserRolesViewModel model)
+        {
+            var user = await userService.GetUserById(model.UserId);
+            var userRoles = await userManager.GetRolesAsync(user);
+            await userManager.RemoveFromRolesAsync(user, userRoles);
+
+            if (model.RoleNames?.Length > 0)
+            {
+                await userManager.AddToRolesAsync(user, model.RoleNames);
+            }
+
+            return RedirectToAction("ManageUsers");
         }
 
         public async Task<IActionResult> Edit(string id)

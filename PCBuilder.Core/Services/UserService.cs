@@ -46,6 +46,7 @@ namespace PCBuilder.Core.Services
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Email = user.Email,
             };
         }
 
@@ -59,6 +60,11 @@ namespace PCBuilder.Core.Services
             {
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+
+                if (model.Email != user.Email)
+                {
+                    user.Email = model.Email;
+                }
 
                 await repo.SaveChangesAsync();
                 result = true;

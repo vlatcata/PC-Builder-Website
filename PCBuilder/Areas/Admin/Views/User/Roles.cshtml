@@ -2,7 +2,7 @@
 @model UserRolesViewModel
 
 @{
-    ViewData["Title"] = "User Roles";
+    ViewData["Title"] = "Manage roles";
     var roles = (List<SelectListItem>)ViewBag.RoleItems;
 }
 
@@ -17,7 +17,7 @@
             <div class="form-floating">
                 <div class="form-group">
                     <label>User Roles</label>
-                    <select asp-for="RoleIds" asp-items="@roles" multiple="" class="form-control">
+                    <select asp-for="RoleNames" asp-items="@roles" multiple="" class="form-control">
                        
                     </select>
                 </div>

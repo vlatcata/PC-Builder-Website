@@ -1,17 +1,20 @@
-﻿<div class="col-md-6">
+﻿@using PCBuilder.Core.Models.Home
+@model List<ComputerViewModel>
+
+<div class="col-md-6">
     <div class="card card-primary card-outline">
         <div class="card-body box-profile">
             <div class="text-center">
                 <img class="profile-user-img img-fluid img-circle" src="~/img/avatar4.png" alt="User profile picture">
             </div>
-            <h3 class="profile-username text-center">Nina Mcintire</h3>
-            <p class="text-muted text-center">Software Engineer</p>
+            <h3 class="profile-username text-center">@User.Identity.Name</h3>
+            <p class="text-muted text-center"></p>
             <ul class="list-group list-group-unbordered mb-3">
                 <li class="list-group-item">
-                    <b>Computers built: </b> <a class="float-right">3</a>
+                    <b>Computers built:</b> <a class="float-right">@Model.Count</a>
                 </li>
                 <li class="list-group-item">
-                    <b>Following</b> <a class="float-right">543</a>
+                    <b>Total money spent:</b> <a class="float-right">@Model.Sum(c => c.Price).ToString("0.00")$$</a>
                 </li>
             </ul>
             <a asp-controller="User" asp-action="EditProfile" class="btn btn-primary btn-block"><b>Edit profile information</b></a>
