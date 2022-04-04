@@ -26,7 +26,7 @@
                             <label asp-for="@component.Specifications[i].Title" class="form-control">@component.Specifications[i].Title: @component.Specifications[i].Description</label>
                         }
 
-                        <label asp-for="@component.Price" class="btn btn-block btn-outline-primary computer-details-price">Price: @component.Price</label>
+                        <label asp-for="@component.Price" class="btn btn-block btn-outline-primary computer-details-price">Price: @component.Price.ToString("0.00")$$</label>
                         <br />
 
                     </div>
