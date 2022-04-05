@@ -170,7 +170,7 @@ namespace PCBuilder.Controllers
 
             if (result)
             {
-                ViewData[MessageConstant.SuccessMessage] = "Component removed Successfully";
+                ViewData[MessageConstant.SuccessMessage] = "Component removed successfully";
             }
             else
             {

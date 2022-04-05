@@ -35,24 +35,32 @@ namespace PCBuilder.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = await userManager.GetUserAsync(User);
-            if (user != null)
+            if (User.Identity.IsAuthenticated)
             {
-                if (!User.IsInRole("Guest"))
+                var user = await userManager.GetUserAsync(User);
+                if (user != null)
                 {
-                    await userManager.AddToRoleAsync(user, "Guest");
+                    if (!User.IsInRole("Guest"))
+                    {
+                        await userManager.AddToRoleAsync(user, "Guest");
+                    }
                 }
+
+                var cart = await cartService.GetCartComponents(user.Id);
+                if (cart != null)
+                {
+                    ViewBag.ViewModel = cart;
+                }
+
+                if (cart.Components == null || cart.Components.Count <= 0)
+                {
+                    return View();
+                }
+
+                return View(cart);
             }
 
-            var cart = await cartService.GetCartComponents(user.Id);
-            ViewBag.ViewModel = cart;
-
-            if (cart.Components == null || cart.Components.Count <= 0)
-            {
-                return View();
-            }
-
-            return View(cart);
+            return View();
         }
 
         public async Task<IActionResult> Computers()
