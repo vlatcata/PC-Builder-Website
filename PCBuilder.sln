@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCBuilder", "PCBuilder\PCBuilder.csproj", "{3A21011C-91F7-4C99-93B4-BB65A481C74C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCBuilder", "PCBuilder\PCBuilder.csproj", "{3A21011C-91F7-4C99-93B4-BB65A481C74C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCBuilder.Core", "PCBuilder.Core\PCBuilder.Core.csproj", "{C6646FAF-9DA0-4ACF-9A3E-1573D3EBE7A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCBuilder.Core", "PCBuilder.Core\PCBuilder.Core.csproj", "{C6646FAF-9DA0-4ACF-9A3E-1573D3EBE7A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCBuilder.Infrastructure", "PCBuilder.Infrastructure\PCBuilder.Infrastructure.csproj", "{1AE4322B-0CAA-4932-9AAD-F0E4C1C4A831}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCBuilder.Infrastructure", "PCBuilder.Infrastructure\PCBuilder.Infrastructure.csproj", "{1AE4322B-0CAA-4932-9AAD-F0E4C1C4A831}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCBuilder.Test", "PCBuilder.Test\PCBuilder.Test.csproj", "{CE196C0A-5422-4BFE-A5C0-C03374E429E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{1AE4322B-0CAA-4932-9AAD-F0E4C1C4A831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AE4322B-0CAA-4932-9AAD-F0E4C1C4A831}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AE4322B-0CAA-4932-9AAD-F0E4C1C4A831}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE196C0A-5422-4BFE-A5C0-C03374E429E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE196C0A-5422-4BFE-A5C0-C03374E429E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE196C0A-5422-4BFE-A5C0-C03374E429E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE196C0A-5422-4BFE-A5C0-C03374E429E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

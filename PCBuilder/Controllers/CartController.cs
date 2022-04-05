@@ -32,7 +32,14 @@ namespace PCBuilder.Controllers
 
             if (cart.Components.Count < 7)
             {
-                ViewData[MessageConstant.ErrorMessage] = $"You need to have every component to build a PC, you are missing: {missingComponents}";
+                if (cart.Components.Count == 0)
+                {
+                    ViewData[MessageConstant.ErrorMessage] = "Your cart is empty";
+                }
+                else
+                {
+                    ViewData[MessageConstant.ErrorMessage] = $"You need to have every component to build a PC, you are missing: {missingComponents}";
+                }
             }
             else
             {
@@ -42,7 +49,7 @@ namespace PCBuilder.Controllers
             return View(cart);
         }
 
-        [Authorize(Roles = UserConstants.Roles.Administrator)]
+        //[Authorize(Roles = UserConstants.Roles.Administrator)]
         public async Task<IActionResult> AddComponent()
         {
             var model = await cartService.GenerateDefaultModel();
@@ -50,7 +57,7 @@ namespace PCBuilder.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = UserConstants.Roles.Administrator)]
+        //[Authorize(Roles = UserConstants.Roles.Administrator)]
         [HttpPost]
         public async Task<IActionResult> AddComponent(AddComponentViewModel viewModel)
         {

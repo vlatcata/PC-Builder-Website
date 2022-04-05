@@ -28,22 +28,22 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Model">Model</label>
-                    <input asp-for="Model" type="text" name="Model" class="form-control" value="@Model.Model">
+                    <input asp-for="Model" type="text" class="form-control" placeholder="Geforce RTX 3080">
                     <span asp-validation-for="Model" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Manufacturer">Manufacturer</label>
-                    <input asp-for="Manufacturer" type="text" name="Manufacturer" class="form-control" value="@Model.Manufacturer">
+                    <input asp-for="Manufacturer" type="text" name="Manufacturer" class="form-control" placeholder="Nvidia">
                     <span asp-validation-for="Manufacturer" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ImageUrl">Image Url</label>
-                    <input asp-for="ImageUrl" type="text" name="ImageUrl" class="form-control" value="@Model.ImageUrl">
+                    <input asp-for="ImageUrl" type="text" name="ImageUrl" class="form-control" placeholder="Image Url here...">
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Price">Price</label>
-                    <input asp-for="Price" type="text" name="Price" class="form-control" value="@Model.Price.ToString("0.00")">
+                    <input asp-for="Price" type="text" name="Price" class="form-control" placeholder="Price">
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <span class="form-group" id="specifications">
@@ -55,11 +55,11 @@
 
                         <input asp-for="@Model.Specifications[i].Id" type="hidden" />
                         <label asp-for="@Model.Specifications[i].Title">Name</label>
-                        <input asp-for="@Model.Specifications[i].Title" type="text" class="form-control" value="@Model.Specifications[i].Title">
+                        <input asp-for="@Model.Specifications[i].Title" type="text" class="form-control" placeholder="Specification..">
                         <span asp-validation-for="@Model.Specifications[i].Title" class="text-danger"></span>
 
                         <label asp-for="@Model.Specifications[i].Description">Description</label>
-                        <input asp-for="@Model.Specifications[i].Description" type="text" class="form-control" value="@Model.Specifications[i].Description">
+                        <input asp-for="@Model.Specifications[i].Description" type="text" class="form-control" placeholder="Description...">
                         <span asp-validation-for="@Model.Specifications[i].Description" class="text-danger"></span>
                     }
                 </span>

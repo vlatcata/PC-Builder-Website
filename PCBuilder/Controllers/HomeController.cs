@@ -35,7 +35,15 @@ namespace PCBuilder.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //var user = await userManager.GetUserAsync(User);
+            var user = await userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                if (!User.IsInRole("Guest"))
+                {
+                    await userManager.AddToRoleAsync(user, "Guest");
+                }
+            }
+
             //var cart = await cartService.GetCartComponents(user.Id);
 
             //ViewBag.ViewModel = cart;

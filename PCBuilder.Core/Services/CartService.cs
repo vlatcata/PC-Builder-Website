@@ -107,29 +107,29 @@ namespace PCBuilder.Core.Services
             specifications.Add(new SpecificationsViewModel()
             {
                 Id = Guid.NewGuid(),
-                Title = "threads",
-                Description = "14"
+                Title = "",
+                Description = ""
             });
             specifications.Add(new SpecificationsViewModel()
             {
                 Id = Guid.NewGuid(),
-                Title = "speed",
-                Description = "4.5Ghz"
+                Title = "",
+                Description = ""
             });
             specifications.Add(new SpecificationsViewModel()
             {
                 Id = Guid.NewGuid(),
-                Title = "speasdasdaded",
-                Description = "4.5Gsssshz"
+                Title = "",
+                Description = ""
             });
 
             var component = new AddComponentViewModel()
             {
-                Category = "CPU",
-                ImageUrl = "https://s13emagst.akamaized.net/products/23377/23376646/images/res_f05cd8bec1059f12f285f0110a76088f.jpg",
-                Manufacturer = "Intel",
-                Model = "Core I7",
-                Price = 500,
+                Category = "",
+                ImageUrl = "",
+                Manufacturer = "",
+                Model = "",
+                Price = 0,
                 Specifications = specifications
             };
 
@@ -379,7 +379,10 @@ namespace PCBuilder.Core.Services
                 }
             }
 
-            sb.Length-=2;
+            if (sb.Length >= 3)
+            {
+                sb.Length -= 2;
+            }
 
             return sb.ToString().TrimEnd();
         }
