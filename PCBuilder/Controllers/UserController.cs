@@ -14,13 +14,15 @@ namespace PCBuilder.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
         private readonly IComputerService computerService;
+        private readonly ICartService cartService;
 
-        public UserController(RoleManager<IdentityRole> _roleManager, UserManager<ApplicationUser> _userManager, IUserService _userService, IComputerService _computerService)
+        public UserController(RoleManager<IdentityRole> _roleManager, UserManager<ApplicationUser> _userManager, IUserService _userService, IComputerService _computerService, ICartService _cartService)
         {
             roleManager = _roleManager;
             userManager = _userManager;
             userService = _userService;
             computerService = _computerService;
+            cartService = _cartService;
         }
 
         public IActionResult Index()
@@ -33,6 +35,9 @@ namespace PCBuilder.Controllers
             var user = await userManager.GetUserAsync(User);
             var computers = await computerService.GetUserComputers(user.Id);
 
+            var cart = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cart;
+
             return View(computers);
         }
 
@@ -40,6 +45,9 @@ namespace PCBuilder.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             var appUser = await userService.GetUserToEdit(user.Id);
+
+            var cart = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cart;
 
             return View(appUser);
         }

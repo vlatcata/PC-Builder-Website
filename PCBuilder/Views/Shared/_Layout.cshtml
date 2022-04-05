@@ -1,6 +1,7 @@
 ﻿@using PCBuilder.Core.Models.Cart
+
 @{
-    //var viewModel = (CartViewModel)ViewBag.ViewModel;
+    var viewModel = (CartViewModel)ViewBag.ViewModel;
 }
 
 <!DOCTYPE html>
@@ -133,7 +134,23 @@
                 <h5>Cart</h5>
                 <p>Sidebar content</p>
 
-                @*<partial model="CartViewModel" name="_SidebarContent">*@
+                @if (viewModel != null)
+                {
+                    @foreach (var component in @viewModel.Components)
+                    {
+                        <div class="info-box sidebar-cart" style="height: 80px">
+                            <img src="@component.ImageUrl" style="width: 80px"><img>
+                            <div class="info-box-content">
+                                <span style="text-overflow: ellipsis; overflow: hidden; width: 400px; white-space: nowrap">@component.Manufacturer @component.Model</span>
+                                <span>@component.Price $</span>
+                                <a class="btn btn-info btn-sm" asp-controller="Cart" asp-action="DetailsComponent" asp-route-id="@component.Id">
+                                    <i class="far fa-credit-card"></i>
+                                    Details
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
 
                 <div class="cart-details-btn">
                     <a class="btn btn-info btn-sm" href="/Cart/Cart">
@@ -141,7 +158,7 @@
                         Cart Details
                     </a>
 
-                    <a class="btn btn-info btn-sm" href="/Cart/Buy">
+                    <a class="btn btn-info btn-sm" href="/Home/BuildComputer">
                         <i class="far fa-credit-card"></i>
                         Build PC
                     </a>

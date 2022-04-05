@@ -26,7 +26,7 @@ body {
 }
 
 .cart-details-btn{
-    padding-top: 480px;
+    padding-left: 10px
 }
 
 .btn-edit-cancel{
@@ -46,7 +46,7 @@ body {
 }
 
 .sidebar-cart{
-    padding: 5px;
+    padding: 0px;
 }
 
 .cart-total-price{
@@ -56,7 +56,7 @@ body {
 
 .clear-cart-btn {
     position: relative;
-    left: 1330px;
+    left: 1370px;
     bottom: 6px;
 }
 
@@ -68,7 +68,7 @@ body {
 
 .build-pc-button {
     position: relative;
-    left: 1140px;
+    left: 1180px;
     bottom: 6px;
 }
 

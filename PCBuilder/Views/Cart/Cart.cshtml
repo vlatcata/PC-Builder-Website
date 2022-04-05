@@ -77,7 +77,7 @@
             </tbody>
         </table>
 
-        <label class="btn-outline-primary">Total Cost: @Model.TotalPrice</label>
+        <label class="cart-total-price">Total Cost: @Model.TotalPrice$$</label>
 
         <a class="btn btn-primary btn-sm clear-cart-btn" asp-controller="Cart" asp-action="ClearCart" asp-route-id="@Model.CartId.ToString()">
             <i class="fas fa-eraser"></i>

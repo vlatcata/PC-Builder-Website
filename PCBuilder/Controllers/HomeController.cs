@@ -44,30 +44,32 @@ namespace PCBuilder.Controllers
                 }
             }
 
-            //var cart = await cartService.GetCartComponents(user.Id);
+            var cart = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cart;
 
-            //ViewBag.ViewModel = cart;
+            if (cart.Components == null || cart.Components.Count <= 0)
+            {
+                return View();
+            }
 
-            //if (cart.Components == null || cart.Components.Count <= 0)
-            //{
-            //    return View();
-            //}
-
-            return View();
+            return View(cart);
         }
 
         public async Task<IActionResult> Computers()
         {
-            var user = userManager.GetUserAsync(User).Result;
-            var computers = computerService.GetUserComputers(user.Id.ToString()).Result;
+            var user = await userManager.GetUserAsync(User);
+            var computers = await computerService.GetUserComputers(user.Id.ToString());
+
+            var cart = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cart;
 
             return View(computers);
         }
 
         public async Task<IActionResult> BuildComputer()
         {
-            var user = userManager.GetUserAsync(User).Result;
-            var cart = cartService.GetCartComponents(user.Id.ToString()).Result;
+            var user = await userManager.GetUserAsync(User);
+            var cart = await cartService.GetCartComponents(user.Id.ToString());
 
             if (cart.Components.Count < 7)
             {
@@ -86,12 +88,20 @@ namespace PCBuilder.Controllers
         {
             var computer = await computerService.GetComputer(id);
 
+            var user = await userManager.GetUserAsync(User);
+            var cart = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cart;
+
             return View(computer);
         }
 
         public async Task<IActionResult> GetAllComponents(string category)
         {
             var components = await cartService.GetAllComponents(category);
+
+            var user = await userManager.GetUserAsync(User);
+            var cart = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cart;
 
             if (components != null && components.Count > 0)
             {

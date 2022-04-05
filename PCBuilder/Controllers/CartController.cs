@@ -46,6 +46,9 @@ namespace PCBuilder.Controllers
                 ViewData[MessageConstant.SuccessMessage] = "You have everything needed to build a computer (press the \"Build PC\" button)";
             }
 
+            var cartSide = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cartSide;
+
             return View(cart);
         }
 
@@ -53,6 +56,10 @@ namespace PCBuilder.Controllers
         public async Task<IActionResult> AddComponent()
         {
             var model = await cartService.GenerateDefaultModel();
+
+            var user = await userManager.GetUserAsync(User);
+            var cart = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cart;
 
             return View(model);
         }
@@ -82,12 +89,20 @@ namespace PCBuilder.Controllers
         {
             var component = await cartService.GetComponent(id);
 
+            var user = await userManager.GetUserAsync(User);
+            var cart = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cart;
+
             return View(component);
         }
 
         public async Task<IActionResult> EditComponent(string id)
         {
             var component = await cartService.GetComponent(id);
+
+            var user = await userManager.GetUserAsync(User);
+            var cart = await cartService.GetCartComponents(user.Id);
+            ViewBag.ViewModel = cart;
 
             return View(component);
         }
