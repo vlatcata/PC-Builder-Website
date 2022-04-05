@@ -38,7 +38,7 @@ namespace PCBuilder.Controllers
                 }
                 else
                 {
-                    ViewData[MessageConstant.ErrorMessage] = $"You need to have every component to build a PC, you are missing: {missingComponents}";
+                    ViewData[MessageConstant.WarningMessage] = $"You need to have every component to build a PC, you are missing: {missingComponents}";
                 }
             }
             else
@@ -129,11 +129,11 @@ namespace PCBuilder.Controllers
             (var componentRemoved, var categoryName) = await cartService.RemoveComponent(id);
             if (componentRemoved)
             {
-                ViewData[MessageConstant.SuccessMessage] = "Component was deleted";
+                TempData[MessageConstant.SuccessMessage] = "Component was deleted";
             }
             else
             {
-                ViewData[MessageConstant.ErrorMessage] = "Component was not deleted";
+                TempData[MessageConstant.ErrorMessage] = "Component was not deleted";
             }
 
             return Redirect($"/Home/GetAllComponents?category={categoryName}");
@@ -152,11 +152,11 @@ namespace PCBuilder.Controllers
 
             if (componentAdded)
             {
-                ViewData[MessageConstant.SuccessMessage] = "Component added to cart";
+                TempData[MessageConstant.SuccessMessage] = "Component added to cart";
             }
             else
             {
-                ViewData[MessageConstant.ErrorMessage] = "You already have component of this category";
+                TempData[MessageConstant.ErrorMessage] = "You already have component of this category";
             }
 
             return Redirect($"/Home/GetAllComponents?category={categoryName}");
@@ -170,11 +170,11 @@ namespace PCBuilder.Controllers
 
             if (result)
             {
-                ViewData[MessageConstant.SuccessMessage] = "Component removed successfully";
+                TempData[MessageConstant.SuccessMessage] = "Component removed successfully";
             }
             else
             {
-                ViewData[MessageConstant.ErrorMessage] = "Component was not removed";
+                TempData[MessageConstant.ErrorMessage] = "Component was not removed";
             }
 
             return RedirectToAction("Cart");
@@ -187,11 +187,11 @@ namespace PCBuilder.Controllers
 
             if (await cartService.ClearCart(cart.CartId.ToString()))
             {
-                ViewData[MessageConstant.SuccessMessage] = "Component removed Successfully";
+                TempData[MessageConstant.SuccessMessage] = "Component removed Successfully";
             }
             else
             {
-                ViewData[MessageConstant.ErrorMessage] = "Component was not removed";
+                TempData[MessageConstant.ErrorMessage] = "Component was not removed";
             }
 
             return RedirectToAction("Cart");
@@ -205,11 +205,11 @@ namespace PCBuilder.Controllers
 
             if (result)
             {
-                ViewData[MessageConstant.SuccessMessage] = "Component was replaced";
+                TempData[MessageConstant.SuccessMessage] = "Component was replaced";
             }
             else
             {
-                ViewData[MessageConstant.ErrorMessage] = "Component was not replaced";
+                TempData[MessageConstant.ErrorMessage] = "Component was not replaced";
             }
 
             return Redirect($"/Home/GetAllComponents?category={categoryName}");
