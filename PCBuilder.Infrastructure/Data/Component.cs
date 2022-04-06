@@ -10,6 +10,7 @@ namespace PCBuilder.Infrastructure.Data
             Id = Guid.NewGuid();
             Specifications = new List<Specification>();
             ComponentCarts = new List<CartComponent>();
+            ComponentComputers = new List<ComputerComponent>();
         }
 
         [Key]
@@ -32,6 +33,9 @@ namespace PCBuilder.Infrastructure.Data
         public decimal Price { get; set; }
 
         public ICollection<CartComponent> ComponentCarts { get; set; }
+
+        public ICollection<ComputerComponent> ComponentComputers { get; set; }
+
 
         [ForeignKey(nameof(CategoryId))]
         [Required]

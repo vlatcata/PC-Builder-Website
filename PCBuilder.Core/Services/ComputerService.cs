@@ -42,6 +42,17 @@ namespace PCBuilder.Core.Services
                 return false;
             }
 
+            foreach (var component in components)
+            {
+                var computerComponent = new ComputerComponent()
+                {
+                    ComputerId = computer.Id,
+                    ComponentId = component.Id
+                };
+
+                computer.ComputerComponents.Add(computerComponent);
+            }
+
             try
             {
                 await repo.AddAsync(computer);
@@ -68,7 +79,7 @@ namespace PCBuilder.Core.Services
             return component;
         }
 
-         private Cart GetCart(string userId)
+        private Cart GetCart(string userId)
         {
             var cart = repo.All<Cart>()
                 .Where(c => c.UserId == userId)
@@ -84,30 +95,37 @@ namespace PCBuilder.Core.Services
             var computer = await repo.All<Computer>()
                 .Where(c => c.Id.ToString() == computerId)
                 .Include(c => c.Components)
+                .Include(c => c.ComputerComponents)
                 .Select(c => new ComputerViewModel()
                 {
                     Id = c.Id,
                     UserId = c.UserId,
                     Price = c.Price,
-                    Components = c.Components.Select(c => new AddComponentViewModel()
-                    {
-                        Id= c.Id,
-                        Category = c.Category.Name,
-                        ImageUrl = c.ImageUrl,
-                        Manufacturer = c.Manufacturer,
-                        Model = c.Model,
-                        Price = c.Price,
-                        Specifications = c.Specifications.Select(s => new SpecificationsViewModel()
-                        {
-                            Description = s.Description,
-                            Id = s.Id,
-                            Title = s.Title
-                        })
-                        .ToList()
-                    })
-                    .ToList()
                 })
                 .FirstOrDefaultAsync();
+
+            var components = repo.All<ComputerComponent>()
+                .Where(c => c.ComputerId == computer.Id)
+                .Select(c => c.Component)
+                .Select(c => new AddComponentViewModel()
+                {
+                    Category = c.Category.Name,
+                    Id = c.Id,
+                    ImageUrl = c.ImageUrl,
+                    Manufacturer = c.Manufacturer,
+                    Model = c.Model,
+                    Price = c.Price,
+                    Specifications = c.Specifications.Select(s => new SpecificationsViewModel()
+                    {
+                        Description = s.Description,
+                        Id = s.Id,
+                        Title = s.Title
+                    })
+                        .ToList()
+                })
+                .ToList();
+
+            computer.Components = components;
 
             return computer;
         }
@@ -117,30 +135,40 @@ namespace PCBuilder.Core.Services
             var computers = await repo.All<Computer>()
                 .Where(c => c.UserId == userId)
                 .Include(c => c.Components)
+                .Include(c => c.ComputerComponents)
                 .Select(c => new ComputerViewModel()
                 {
                     Id = c.Id,
-                    UserId=userId,
+                    UserId = userId,
                     Price = c.Price,
-                    Components = c.Components.Select(c => new AddComponentViewModel()
-                    {
-                        Category = c.Category.Name,
-                        Id = c.Id,
-                        ImageUrl = c.ImageUrl,
-                        Manufacturer = c.Manufacturer,
-                        Model = c.Model,
-                        Price = c.Price,
-                        Specifications = c.Specifications.Select(s => new SpecificationsViewModel()
-                        {
-                            Description = s.Description,
-                            Id = s.Id,
-                            Title = s.Title
-                        })
-                        .ToList()
-                    })
-                    .ToList()
                 })
                 .ToListAsync();
+
+            foreach (var computer in computers)
+            {
+                var components = repo.All<ComputerComponent>()
+                .Where(c => c.ComputerId == computer.Id)
+                .Select(c => c.Component)
+                .Select(c => new AddComponentViewModel()
+                {
+                    Category = c.Category.Name,
+                    Id = c.Id,
+                    ImageUrl = c.ImageUrl,
+                    Manufacturer = c.Manufacturer,
+                    Model = c.Model,
+                    Price = c.Price,
+                    Specifications = c.Specifications.Select(s => new SpecificationsViewModel()
+                    {
+                        Description = s.Description,
+                        Id = s.Id,
+                        Title = s.Title
+                    })
+                        .ToList()
+                })
+                .ToList();
+
+                computer.Components = components;
+            }
 
             return computers;
         }

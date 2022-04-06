@@ -23,7 +23,7 @@ namespace PCBuilder.Infrastructure.Data
 
         public DbSet<CartComponent> CartComponent { get; set; }
 
-
+        public DbSet<ComputerComponent> ComputerComponent { get; set; }
 
 
 
@@ -42,6 +42,19 @@ namespace PCBuilder.Infrastructure.Data
             modelBuilder.Entity<CartComponent>()
                 .HasOne(c => c.Component)
                 .WithMany(c => c.ComponentCarts)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ComputerComponent>()
+                .HasKey(c => new { c.ComputerId, c.ComponentId });
+
+            modelBuilder.Entity<ComputerComponent>()
+                .HasOne(c => c.Computer)
+                .WithMany(c => c.ComputerComponents)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ComputerComponent>()
+                .HasOne(c => c.Component)
+                .WithMany(c => c.ComponentComputers)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //modelBuilder.Entity<Cart>()
