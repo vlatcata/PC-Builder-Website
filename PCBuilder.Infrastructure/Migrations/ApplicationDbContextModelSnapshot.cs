@@ -270,6 +270,21 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.ToTable("Computers");
                 });
 
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.ComputerComponent", b =>
+                {
+                    b.Property<Guid>("ComputerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ComponentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ComputerId", "ComponentId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("ComputerComponent");
+                });
+
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -458,6 +473,25 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.ComputerComponent", b =>
+                {
+                    b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
+                        .WithMany("ComponentComputers")
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PCBuilder.Infrastructure.Data.Computer", "Computer")
+                        .WithMany("ComputerComponents")
+                        .HasForeignKey("ComputerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+
+                    b.Navigation("Computer");
+                });
+
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Specification", b =>
                 {
                     b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
@@ -485,12 +519,16 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                 {
                     b.Navigation("ComponentCarts");
 
+                    b.Navigation("ComponentComputers");
+
                     b.Navigation("Specifications");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Computer", b =>
                 {
                     b.Navigation("Components");
+
+                    b.Navigation("ComputerComponents");
                 });
 #pragma warning restore 612, 618
         }

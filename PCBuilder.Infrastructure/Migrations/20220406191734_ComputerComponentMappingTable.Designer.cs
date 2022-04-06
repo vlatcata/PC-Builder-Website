@@ -12,8 +12,8 @@ using PCBuilder.Infrastructure.Data;
 namespace PCBuilder.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220321203010_RemovedOrders")]
-    partial class RemovedOrders
+    [Migration("20220406191734_ComputerComponentMappingTable")]
+    partial class ComputerComponentMappingTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -167,9 +167,31 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("Money");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.CartComponent", b =>
+                {
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ComponentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CartId", "ComponentId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("CartComponent");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Category", b =>
@@ -178,8 +200,10 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -203,7 +227,8 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Manufacturer")
                         .IsRequired()
@@ -235,14 +260,31 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("money");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.ToTable("Computers");
+                });
+
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.ComputerComponent", b =>
+                {
+                    b.Property<Guid>("ComputerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ComponentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ComputerId", "ComponentId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("ComputerComponent");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", b =>
@@ -395,6 +437,25 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.CartComponent", b =>
+                {
+                    b.HasOne("PCBuilder.Infrastructure.Data.Cart", "Cart")
+                        .WithMany("CartComponents")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
+                        .WithMany("ComponentCarts")
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Component");
+                });
+
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
                 {
                     b.HasOne("PCBuilder.Infrastructure.Data.Cart", null)
@@ -414,11 +475,23 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Computer", b =>
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.ComputerComponent", b =>
                 {
-                    b.HasOne("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", null)
-                        .WithMany("Computers")
-                        .HasForeignKey("ApplicationUserId");
+                    b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
+                        .WithMany("ComponentComputers")
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PCBuilder.Infrastructure.Data.Computer", "Computer")
+                        .WithMany("ComputerComponents")
+                        .HasForeignKey("ComputerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+
+                    b.Navigation("Computer");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Specification", b =>
@@ -434,6 +507,8 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Cart", b =>
                 {
+                    b.Navigation("CartComponents");
+
                     b.Navigation("Components");
                 });
 
@@ -444,17 +519,18 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
                 {
+                    b.Navigation("ComponentCarts");
+
+                    b.Navigation("ComponentComputers");
+
                     b.Navigation("Specifications");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Computer", b =>
                 {
                     b.Navigation("Components");
-                });
 
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", b =>
-                {
-                    b.Navigation("Computers");
+                    b.Navigation("ComputerComponents");
                 });
 #pragma warning restore 612, 618
         }
