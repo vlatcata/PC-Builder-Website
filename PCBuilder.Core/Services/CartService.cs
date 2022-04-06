@@ -60,7 +60,7 @@ namespace PCBuilder.Core.Services
 
                 result = true;
             }
-            catch (InvalidOperationException ex)
+            catch (Exception ex)
             {
                 result = false;
             }

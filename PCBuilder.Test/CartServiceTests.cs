@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using PcBuilder.Infrastructure.Data.Repositories;
 using PCBuilder.Core.Contracts;
+using PCBuilder.Core.Models.Cart;
 using PCBuilder.Core.Services;
 using PCBuilder.Infrastructure.Data;
 using PCBuilder.Infrastructure.Data.Repositories;
@@ -33,9 +34,49 @@ namespace PCBuilder.Test
         }
 
         [Test]
-        public void Test1()
+        public void AddingCorrectComponentMustNotThrow()
         {
-            Assert.Pass();
+            var service = serviceProvider.GetService<ICartService>();
+
+            var component = new AddComponentViewModel()
+            {
+                Category = "Case",
+                ImageUrl = "https://www.xda-developers.com/files/2021/12/Fractal-Design-Meshify-2-Compact-black-color.jpg",
+                Manufacturer = "Nvidia",
+                Model = "Some case",
+                Price = 320
+            };
+
+            var specifications = new List<SpecificationsViewModel>();
+            var specification = new SpecificationsViewModel()
+            {
+                Title = "Case Type",
+                Description = "ATX"
+            };
+            specifications.Add(specification);
+
+            component.Specifications = specifications;
+
+            var result = service.CreateComponent(component).Result;
+
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void AddingIncorrectCorrectComponentMustThrow()
+        {
+            var service = serviceProvider.GetService<ICartService>();
+
+            var component = new AddComponentViewModel()
+            {
+                Category = "CPU",
+                ImageUrl = "https://www.xda-developers.com/files/2021/12/Fractal-Design-Meshify-2-Compact-black-color.jpg",
+                Price = 320
+            };
+
+            var result = service.CreateComponent(component).Result;
+
+            Assert.AreEqual(false, result);
         }
 
         [TearDown]
@@ -49,7 +90,7 @@ namespace PCBuilder.Test
             var category = new Category()
             {
                 Id = new Guid("96e56783-b03b-4551-8061-24468031bf26"),
-                Name = "CPU"
+                Name = "CPU",
             };
 
             var components = new List<Component>();
