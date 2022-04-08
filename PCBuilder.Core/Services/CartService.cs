@@ -275,11 +275,6 @@ namespace PCBuilder.Core.Services
 
             cart.CartComponents.Add(cartComponent);
 
-            //if (component == null || cart.Components.Any(c => c.Category.Name == component.Category.Name))
-            //{
-            //    return false;
-            //}
-
             cart.Components.Add(component);
             cart.TotalPrice = cart.Components.Sum(c => c.Price);
 
@@ -381,7 +376,7 @@ namespace PCBuilder.Core.Services
             return sb.ToString().TrimEnd();
         }
 
-        public async Task<(bool, string)> RemoveFromCart(string userId, string componentId)
+        public async Task<(bool, string)> RemoveFromCart(string userId, Guid componentId)
         {
             var result = false;
 
@@ -392,8 +387,8 @@ namespace PCBuilder.Core.Services
                 result = false;
             }
 
-            var componentToRemoveFromCart = cart.Components.Where(c => c.Id.ToString() == componentId).FirstOrDefault();
-            var componentToRemove = repo.All<CartComponent>().Where(c => c.CartId == cart.Id && c.ComponentId.ToString() == componentId).FirstOrDefault();
+            var componentToRemoveFromCart = cart.Components.Where(c => c.Id == componentId).FirstOrDefault();
+            var componentToRemove = repo.All<CartComponent>().Where(c => c.CartId == cart.Id && c.ComponentId == componentId).FirstOrDefault();
 
             var categoryName = componentToRemoveFromCart.Category.Name;
 
@@ -406,12 +401,12 @@ namespace PCBuilder.Core.Services
             return (result, categoryName);
         }
 
-        public async Task<bool> ClearCart(string cartId)
+        public async Task<bool> ClearCart(Guid cartId)
         {
             var result = false;
 
             var cart = await repo.All<Cart>()
-                .Where(c => c.Id.ToString() == cartId)
+                .Where(c => c.Id == cartId)
                 .Include(c => c.Components)
                 .Include(c => c.CartComponents)
                 .FirstOrDefaultAsync();

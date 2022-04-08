@@ -65,7 +65,7 @@ namespace PCBuilder.Test
         }
 
         [Test]
-        public void CreatingIncorrectCorrectComponentMustThrow()
+        public async Task CreatingIncorrectCorrectComponentMustThrow()
         {
             var service = serviceProvider.GetService<ICartService>();
 
@@ -76,7 +76,24 @@ namespace PCBuilder.Test
                 Price = 320
             };
 
-            var result = service.CreateComponent(component).Result;
+            var result = await service.CreateComponent(component);
+
+            Assert.AreEqual(false, result);
+        }
+
+        [Test]
+        public async Task CreateComponentWithNoCategoryMustCreatecategory()
+        {
+            var service = serviceProvider.GetService<ICartService>();
+
+            var component = new AddComponentViewModel()
+            {
+                ImageUrl = "https://www.xda-developers.com/files/2021/12/Fractal-Design-Meshify-2-Compact-black-color.jpg",
+                Price = 320,
+                Category = "Power Supply"
+            };
+
+            var result = await service.CreateComponent(component);
 
             Assert.AreEqual(false, result);
         }
@@ -141,7 +158,7 @@ namespace PCBuilder.Test
         {
             var service = serviceProvider.GetService<ICartService>();
 
-            var result = await service.GetAllComponents("Case");
+            var result = await service.GetAllComponents("Power Supply");
 
             Assert.AreEqual(0, result.Count);
         }
@@ -255,6 +272,27 @@ namespace PCBuilder.Test
         }
 
         [Test]
+        public async Task AddToCartWithNoCartMustCreateOne()
+        {
+            var service = serviceProvider.GetService<ICartService>();
+
+            Assert.CatchAsync<NullReferenceException>(async () => await service.AddToCart("asd123asd000", new Guid("b53c126d-c752-42e5-8a0a-1e7e2b18b22f")));
+        }
+
+        [Test]
+        public async Task IfCategoryInCartExistsTestMustFail()
+        {
+            var service = serviceProvider.GetService<ICartService>();
+
+            var result = await service.AddToCart("asd123asd123", new Guid("383b2808-693e-44ba-b0d3-4020c55fa098"));
+
+            bool first = false;
+            string second = null;
+
+            Assert.AreEqual((first, second), result);
+        }
+
+        [Test]
         public async Task GetCartComponentsMustPassWithValidUser()
         {
             var service = serviceProvider.GetService<ICartService>();
@@ -272,6 +310,34 @@ namespace PCBuilder.Test
             var result = await service.GetCartComponents("asd123asd000");
 
             Assert.AreEqual(0, result.Components.Count);
+        }
+
+        [Test]
+        public async Task CheckMissingComponentsMustReturnCorrectString()
+        {
+            var service = serviceProvider.GetService<ICartService>();
+
+            var result = service.CheckMissingComponents("asd123asd123");
+
+            Assert.AreEqual("GPU, Case", result);
+        }
+
+        [Test]
+        public async Task ClearCartMustSucceedWithValidData()
+        {
+            var service = serviceProvider.GetService<ICartService>();
+
+            var result = await service.ClearCart(new Guid("b40666de-fed8-4ce2-a790-fdfaca9e5627"));
+
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public async Task ClearCartMustNotSucceedWithInvalidData()
+        {
+            var service = serviceProvider.GetService<ICartService>();
+
+            Assert.CatchAsync<NullReferenceException>(async () => await service.ClearCart(new Guid("b40666de-fed8-4ce2-a790-fdfaca9e5000")));
         }
 
         [TearDown]
@@ -295,7 +361,7 @@ namespace PCBuilder.Test
                 CategoryId = category.Id,
                 Id = new Guid("383b2808-693e-44ba-b0d3-4020c55fa098"),
                 ImageUrl = "https://www.xda-developers.com/files/2021/12/Fractal-Design-Meshify-2-Compact-black-color.jpg",
-                Manufacturer = "Nvidia",
+                Manufacturer = "Intel",
                 Model = "Some CPU",
                 Price = 320
             };
@@ -321,7 +387,7 @@ namespace PCBuilder.Test
             var category3 = new Category()
             {
                 Id = new Guid("e46d043b-e543-40d0-b09d-6ecfa414fba8"),
-                Name = "CPU",
+                Name = "GPU",
             };
 
             var components3 = new List<Component>();
@@ -332,7 +398,7 @@ namespace PCBuilder.Test
                 Id = new Guid("4ea95f07-a20d-4b04-b8f6-b14b450ee762"),
                 ImageUrl = "https://www.xda-developers.com/files/2021/12/Fractal-Design-Meshify-2-Compact-black-color.jpg",
                 Manufacturer = "Nvidia",
-                Model = "Some CPU",
+                Model = "Some GPU",
                 Price = 400
             };
             components.Add(component);

@@ -166,7 +166,7 @@ namespace PCBuilder.Controllers
         {
             var user = await userManager.GetUserAsync(User);
 
-            (bool result, string categoryName) = await cartService.RemoveFromCart(user.Id, id.ToString());
+            (bool result, string categoryName) = await cartService.RemoveFromCart(user.Id, id);
 
             if (result)
             {
@@ -185,7 +185,7 @@ namespace PCBuilder.Controllers
             var user = await userManager.GetUserAsync(User);
             var cart = await cartService.GetCartComponents(user.Id);
 
-            if (await cartService.ClearCart(cart.CartId.ToString()))
+            if (await cartService.ClearCart(cart.CartId))
             {
                 TempData[MessageConstant.SuccessMessage] = "Component removed Successfully";
             }
@@ -201,7 +201,7 @@ namespace PCBuilder.Controllers
         {
             var user = await userManager.GetUserAsync(User);
 
-            (bool result, string categoryName) = await cartService.RemoveFromCart(user.Id, id.ToString());
+            (bool result, string categoryName) = await cartService.RemoveFromCart(user.Id, id);
 
             if (result)
             {

@@ -83,7 +83,7 @@ namespace PCBuilder.Controllers
 
             if (await computerService.BuildComputer(cart))
             {
-                await cartService.ClearCart(cart.CartId.ToString());
+                await cartService.ClearCart(cart.CartId);
             }
 
             return RedirectToAction("Computers");
