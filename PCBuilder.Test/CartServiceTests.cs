@@ -9,7 +9,6 @@ using PCBuilder.Infrastructure.Data.Identity;
 using PCBuilder.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PCBuilder.Test
@@ -36,7 +35,7 @@ namespace PCBuilder.Test
         }
 
         [Test]
-        public void CreatingCorrectComponentMustNotThrow()
+        public async Task CreatingCorrectComponentMustNotThrow()
         {
             var service = serviceProvider.GetService<ICartService>();
 
@@ -59,7 +58,7 @@ namespace PCBuilder.Test
 
             component.Specifications = specifications;
 
-            var result = service.CreateComponent(component).Result;
+            var result = await service.CreateComponent(component);
 
             Assert.AreEqual(true, result);
         }

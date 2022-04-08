@@ -4,11 +4,6 @@ using PCBuilder.Core.Contracts;
 using PCBuilder.Core.Models.Cart;
 using PCBuilder.Core.Models.Home;
 using PCBuilder.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCBuilder.Core.Services
 {
