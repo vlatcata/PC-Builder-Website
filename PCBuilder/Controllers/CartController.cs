@@ -85,7 +85,7 @@ namespace PCBuilder.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> DetailsComponent(string id)
+        public async Task<IActionResult> DetailsComponent(Guid id)
         {
             var component = await cartService.GetComponent(id);
 
@@ -96,7 +96,7 @@ namespace PCBuilder.Controllers
             return View(component);
         }
 
-        public async Task<IActionResult> EditComponent(string id)
+        public async Task<IActionResult> EditComponent(Guid id)
         {
             var component = await cartService.GetComponent(id);
 
@@ -143,12 +143,12 @@ namespace PCBuilder.Controllers
         {
             var user = await userManager.GetUserAsync(User);
 
-            if (cartService.IsComponentInCart(user.Id, id.ToString()))
+            if (cartService.IsComponentInCart(user.Id, id))
             {
                 ViewData[MessageConstant.ErrorMessage] = "You already have component of this category";
             }
 
-            (var componentAdded, var categoryName) = await cartService.AddToCart(user.Id, id.ToString());
+            (var componentAdded, var categoryName) = await cartService.AddToCart(user.Id, id);
 
             if (componentAdded)
             {

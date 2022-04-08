@@ -68,10 +68,10 @@ namespace PCBuilder.Core.Services
             return result;
         }
 
-        public async Task<AddComponentViewModel> GetComponent(string id)
+        public async Task<AddComponentViewModel> GetComponent(Guid id)
         {
             var component = await repo.All<Component>()
-                .Where(c => c.Id.ToString() == id)
+                .Where(c => c.Id == id)
                 .Include(c => c.Category)
                 .Select(c => new AddComponentViewModel()
                 {
@@ -219,7 +219,7 @@ namespace PCBuilder.Core.Services
             return cart;
         }
 
-        public bool IsComponentInCart(string userId, string componentId)
+        public bool IsComponentInCart(string userId, Guid componentId)
         {
             CreateUserCart(userId);
 
@@ -229,7 +229,7 @@ namespace PCBuilder.Core.Services
                 .FirstOrDefault();
 
             var component = repo.All<Component>()
-                .Where(c => c.Id.ToString() == componentId)
+                .Where(c => c.Id == componentId)
                 .Include(c => c.Category)
                 .FirstOrDefault();
 
@@ -238,7 +238,7 @@ namespace PCBuilder.Core.Services
             return isInCart;
         }
 
-        public async Task<(bool, string)> AddToCart(string userId, string componentId)
+        public async Task<(bool, string)> AddToCart(string userId, Guid componentId)
         {
             var cartExists = true;
 
@@ -255,7 +255,7 @@ namespace PCBuilder.Core.Services
             }
 
             var component = await repo.All<Component>()
-                .Where(c => c.Id.ToString() == componentId)
+                .Where(c => c.Id == componentId)
                 .Include(c => c.Category)
                 .Include(c => c.Specifications)
                 .FirstOrDefaultAsync();

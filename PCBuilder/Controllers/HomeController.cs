@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using PCBuilder.Core.Constants;
 using PCBuilder.Core.Contracts;
-using PCBuilder.Core.Models.Cart;
-using PCBuilder.Core.Models.Home;
 using PCBuilder.Infrastructure.Data.Identity;
 using PCBuilder.Models;
 using System.Diagnostics;
