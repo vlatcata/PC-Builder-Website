@@ -130,40 +130,51 @@
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
-            <div class="p-3">
-                <h5>Cart</h5>
-                <p>Sidebar content</p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="p-3">
+                    <h5>Cart</h5>
+                    <p>Cart components</p>
 
-                @if (viewModel != null)
-                {
-                    @foreach (var component in @viewModel.Components)
+                    @if (viewModel != null)
                     {
-                        <div class="info-box sidebar-cart" style="height: 80px">
-                            <img src="@component.ImageUrl" style="width: 80px"><img>
-                            <div class="info-box-content">
-                                <span style="text-overflow: ellipsis; overflow: hidden; width: 400px; white-space: nowrap">@component.Manufacturer @component.Model</span>
-                                <span>@component.Price $</span>
-                                <a class="btn btn-info btn-sm" asp-controller="Cart" asp-action="DetailsComponent" asp-route-id="@component.Id">
-                                    <i class="far fa-credit-card"></i>
-                                    Details
-                                </a>
+                        @foreach (var component in @viewModel.Components)
+                        {
+                            <div class="info-box sidebar-cart" style="height: 80px">
+                                <img src="@component.ImageUrl" style="width: 80px"><img>
+                                <div class="info-box-content">
+                                    <span style="text-overflow: ellipsis; overflow: hidden; width: 400px; white-space: nowrap">@component.Manufacturer @component.Model</span>
+                                    <span>@component.Price $</span>
+                                    <a class="btn btn-info btn-sm" asp-controller="Cart" asp-action="DetailsComponent" asp-route-id="@component.Id">
+                                        <i class="far fa-credit-card"></i>
+                                        Details
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
-                }
 
-                <div class="cart-details-btn">
-                    <a class="btn btn-info btn-sm" href="/Cart/Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                        Cart Details
-                    </a>
+                    <div class="cart-details-btn">
+                        <a class="btn btn-info btn-sm" href="/Cart/Cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            Cart Details
+                        </a>
 
-                    <a class="btn btn-info btn-sm" href="/Home/BuildComputer">
-                        <i class="far fa-credit-card"></i>
-                        Build PC
-                    </a>
+                        <a class="btn btn-info btn-sm" href="/Home/BuildComputer">
+                            <i class="far fa-credit-card"></i>
+                            Build PC
+                        </a>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="p-3">
+                    <h5>Cart</h5>
+                    <p>Your cart is empty.</p>
+                    <p>Register to start building!</p>
+                </div>
+            }
         </aside>
         <!-- /.control-sidebar -->
         <!-- Main Footer -->

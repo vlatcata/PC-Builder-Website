@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Core.Contracts;
 using PCBuilder.Infrastructure.Data.Identity;
@@ -20,14 +21,6 @@ namespace PCBuilder.Controllers
             cartService = _cartService;
             userManager = _userManager;
             computerService = _computerService;
-        }
-
-        public PartialViewResult Action()
-        {
-            var user = userManager.GetUserAsync(User);
-            var model = cartService.GetCartComponents(user.Id.ToString());
-
-            return PartialView("~/Views/Shared/_SidebarContent.cshtml", model);
         }
 
         public async Task<IActionResult> Index()
@@ -60,17 +53,22 @@ namespace PCBuilder.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> Computers()
         {
             var user = await userManager.GetUserAsync(User);
             var computers = await computerService.GetUserComputers(user.Id.ToString());
 
-            var cart = await cartService.GetCartComponents(user.Id);
-            ViewBag.ViewModel = cart;
+            if (user != null)
+            {
+                var cart = await cartService.GetCartComponents(user.Id);
+                ViewBag.ViewModel = cart;
+            }
 
             return View(computers);
         }
 
+        [Authorize]
         public async Task<IActionResult> BuildComputer()
         {
             var user = await userManager.GetUserAsync(User);
@@ -89,13 +87,17 @@ namespace PCBuilder.Controllers
             return RedirectToAction("Computers");
         }
 
+        [Authorize]
         public async Task<IActionResult> DetailsComputer(string id)
         {
             var computer = await computerService.GetComputer(id);
 
-            var user = await userManager.GetUserAsync(User);
-            var cart = await cartService.GetCartComponents(user.Id);
-            ViewBag.ViewModel = cart;
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                var cart = await cartService.GetCartComponents(user.Id);
+                ViewBag.ViewModel = cart;
+            }
 
             return View(computer);
         }
@@ -104,9 +106,12 @@ namespace PCBuilder.Controllers
         {
             var components = await cartService.GetAllComponents(category);
 
-            var user = await userManager.GetUserAsync(User);
-            var cart = await cartService.GetCartComponents(user.Id);
-            ViewBag.ViewModel = cart;
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                var cart = await cartService.GetCartComponents(user.Id);
+                ViewBag.ViewModel = cart;
+            }
 
             if (components != null && components.Count > 0)
             {

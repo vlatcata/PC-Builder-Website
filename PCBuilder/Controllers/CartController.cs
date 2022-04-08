@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Core.Constants;
 using PCBuilder.Core.Contracts;
 using PCBuilder.Core.Models.Cart;
-using PCBuilder.Infrastructure.Common;
 using PCBuilder.Infrastructure.Data.Identity;
 
 namespace PCBuilder.Controllers
@@ -64,7 +63,6 @@ namespace PCBuilder.Controllers
             return View(model);
         }
 
-        //[Authorize(Roles = UserConstants.Roles.Administrator)]
         [HttpPost]
         public async Task<IActionResult> AddComponent(AddComponentViewModel viewModel)
         {
@@ -100,9 +98,12 @@ namespace PCBuilder.Controllers
         {
             var component = await cartService.GetComponent(id);
 
-            var user = await userManager.GetUserAsync(User);
-            var cart = await cartService.GetCartComponents(user.Id);
-            ViewBag.ViewModel = cart;
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                var cart = await cartService.GetCartComponents(user.Id);
+                ViewBag.ViewModel = cart;
+            }
 
             return View(component);
         }
