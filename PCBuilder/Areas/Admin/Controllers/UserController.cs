@@ -33,22 +33,22 @@ namespace PCBuilder.Areas.Admin.Controllers
             return View(users);
         }
 
-        public async Task<IActionResult> Roles(string id)
+         public async Task<IActionResult> Roles(string id)
         {
             var user = await userService.GetUserById(id);
-
             var model = new UserRolesViewModel()
             {
                 UserId = user.Id,
                 Name = $"{user.FirstName} {user.LastName}"
             };
 
+
             ViewBag.RoleItems = roleManager.Roles
                 .ToList()
                 .Select(r => new SelectListItem()
                 {
                     Text = r.Name,
-                    Value = r.Id,
+                    Value = r.Name,
                     Selected = userManager.IsInRoleAsync(user, r.Name).Result
                 }).ToList();
 
@@ -61,13 +61,13 @@ namespace PCBuilder.Areas.Admin.Controllers
             var user = await userService.GetUserById(model.UserId);
             var userRoles = await userManager.GetRolesAsync(user);
             await userManager.RemoveFromRolesAsync(user, userRoles);
-
+            
             if (model.RoleNames?.Length > 0)
             {
                 await userManager.AddToRolesAsync(user, model.RoleNames);
             }
 
-            return RedirectToAction("ManageUsers");
+            return RedirectToAction(nameof(ManageUsers));
         }
 
         public async Task<IActionResult> Edit(string id)
