@@ -1,4 +1,16 @@
-﻿
+﻿// Chat Bot
+
+$(document).ready(function () {
+    $('.chat_icon').click(function () {
+        $('.chat_box').toggleClass('active');
+    });
+
+    $('.conv-form-wrapper').convform({ selectInputStyle: 'disable' })
+});
+
+
+
+// Adding aditional specifications
 
 function add(tpe) {
     var specificationlabel = document.createElement("label");

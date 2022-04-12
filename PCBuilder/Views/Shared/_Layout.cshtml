@@ -22,6 +22,9 @@
     <link rel="stylesheet" href="~/plugins/toastr/toastr.min.css" />
 
 
+    <link rel="stylesheet" href="~/css/jquery.convform.css" />
+
+
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
@@ -103,6 +106,59 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <div class="content-header">
+                <!-- Chat Bot -->
+                <div class="chat_icon">
+                    <i class="fa fa-comments" aria-hidden="true"></i>
+                </div>
+                <div class="chat_box">
+                    <div class="conv-form-wrapper">
+                        <form action="" method="get" class="hidden">
+                            <select name="category" data-conv-question="Hello, What do you need help with?">
+                                <option value="productStock">I'm looking for components</option>
+                                <option value="computerQuestion">Can I build PC with my parts?</option>
+                            </select>
+                            <div data-conv-fork="category">
+                                <div data-conv-case="productStock">
+                                    <select data-conv-question="What are you looking for?">
+                                        <option value="cpu" data-callback="cpu">CPU</option>
+                                        <option value="gpu" data-callback="gpu">GPU</option>
+                                        <option value="case" data-callback="case">Case</option>
+                                    </select>
+                                </div>
+                                <div data-conv-case="computerQuestion">
+                                    <select name="answer" data-conv-question="Yes, of course, you can build a computer with all the parts in the website, you just need 1 of each!">
+                                        <option value="okay">Okay, thanks!</option>
+                                        <option value="question">And can I edit the components?</option>
+                                    </select>
+                                    <div data-conv-fork="answer">
+                                        <div data-conv-case="okay">
+                                              <input type="text" data-conv-question="No problem!">
+                                        </div>
+                                        <div data-conv-case="question">
+                                              <input type="text" data-conv-question="Unfortunately, you cannot.">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <script>
+                    function cpu(stateWrapper, ready) {
+                        window.open("https://localhost:7206/Home/GetAllComponents?category=CPU");
+                        ready();
+                    }
+                    function gpu(stateWrapper, ready) {
+                        window.open("https://localhost:7206/Home/GetAllComponents?category=GPU");
+                        ready();
+                    }
+                    function case(stateWrapper, ready) {
+                        window.open("https://localhost:7206/Home/GetAllComponents?category=Case");
+                        ready();
+                    }
+                </script>
+                <!-- Chat Bot End -->
+
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
@@ -195,6 +251,9 @@
     <!-- AdminLTE App -->
     <script src="~/js/adminlte.min.js"></script>
     <script src="~/plugins/toastr/toastr.min.js"></script>
+    <script src="~/js/jQuery.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/jquery.convform.js"></script>
     <partial name="_UserMessages" />
     @await RenderSectionAsync("Scripts", false)
 
