@@ -57,7 +57,7 @@
                         <span asp-validation-for="@Model.Specifications[i].Title" class="text-danger" style="float:right"></span>
                         <label asp-for="@Model.Specifications[i].Title">Name</label>
                         <input asp-for="@Model.Specifications[i].Title" type="text" class="form-control" placeholder="Specification..">
-                        
+
                         <span asp-validation-for="@Model.Specifications[i].Description" class="text-danger" style="float:right"></span>
                         <label asp-for="@Model.Specifications[i].Description">Description</label>
                         <input asp-for="@Model.Specifications[i].Description" type="text" class="form-control" placeholder="Description...">
@@ -69,7 +69,7 @@
             <div class="col-12">
                 <a asp-controller="Cart" asp-action="Cart" class="btn btn-secondary">Cancel</a>
                 <button asp-controller="Cart" asp-action="AddComponent" method="post" type="submit" class="btn btn-success create-component-btn">Submit</button>
-                <button type="submit" class="btn btn-success" id="create-specification">Add another specification</button>
+                <button asp-controller="Cart" asp-action="AddComponent" method="get" type="submit" class="btn btn-success" id="create-specification">Add another specification</button>
             </div>
         </div>
     </form>

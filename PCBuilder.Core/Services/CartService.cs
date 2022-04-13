@@ -110,12 +110,12 @@ namespace PCBuilder.Core.Services
                 Title = "",
                 Description = ""
             });
-            specifications.Add(new SpecificationsViewModel()
-            {
-                Id = Guid.NewGuid(),
-                Title = "",
-                Description = ""
-            });
+            //specifications.Add(new SpecificationsViewModel()
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Title = "",
+            //    Description = ""
+            //});
 
             var component = new AddComponentViewModel()
             {

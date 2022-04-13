@@ -4,6 +4,7 @@
 
 <div class="card">
     <div class="card-header">
+        <label class="btn btn-block bg-gradient-primary btn-lg">Total Cost: @Model.TotalPrice$$</label>
     </div>
     <div class="card-body p-0">
         <table class="table table-striped projects">
@@ -62,9 +63,7 @@
                     </tr>
                 }
             </tbody>
-        </table>
-
-        <label class="cart-total-price">Total Cost: @Model.TotalPrice$$</label>
+        </table>     
 
         <a class="btn btn-primary btn-sm clear-cart-btn" asp-controller="Cart" asp-action="ClearCart" asp-route-id="@Model.CartId.ToString()">
             <i class="fas fa-eraser"></i>

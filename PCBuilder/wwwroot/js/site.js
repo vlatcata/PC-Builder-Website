@@ -18,22 +18,26 @@ function add(tpe) {
 
     specificationlabel.id = "inputSpecifications";
     specificationlabel.textContent = "Name"
+    specificationlabel.name = "Model.Specifications[i].Title"
 
     specificationinput.className = "form-control";
     specificationinput.type = "text";
     specificationinput.placeholder = "Specification..";
-    /*specificationinput.setAttribute("asp-for", "@Model.Specifications[i].Title");*/
+    specificationinput.name = "Model.Specifications[i].Title";
+    /*--------------------------------------------------------------*/
 
     var descriptionlabel = document.createElement("label");
     var descriptioninput = document.createElement("input");
 
     descriptionlabel.id = "inputSpecifications";
     descriptionlabel.textContent = "Description";
+    descriptionlabel.name = "Model.Specifications[i].Description"
 
     descriptioninput.className = "form-control";
     descriptioninput.type = "text";
     descriptioninput.placeholder = "Description..";
-    /*descriptioninput.setAttribute("asp-for", "@Model.Specifications[i].Description");*/
+    descriptioninput.name = "Model.Specifications[i].Description";
+    /*--------------------------------------------------------------*/
 
     var foo = document.getElementById("specifications");
     foo.appendChild(specificationlabel);
