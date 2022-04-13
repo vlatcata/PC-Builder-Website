@@ -120,9 +120,10 @@
                             <div data-conv-fork="category">
                                 <div data-conv-case="productStock">
                                     <select data-conv-question="What are you looking for?">
-                                        <option value="cpu" data-callback="cpu">CPU</option>
-                                        <option value="gpu" data-callback="gpu">GPU</option>
-                                        <option value="case" data-callback="case">Case</option>
+                                        <option value="cpu" data-callback="cpu">cpu</option>
+                                        <option value="gpu" data-callback="gpu">gpu</option>
+                                        <option value="ram" data-callback="ram">ram</option>
+                                        <option value="ssd" data-callback="ssd">ssd</option>
                                     </select>
                                 </div>
                                 <div data-conv-case="computerQuestion">
@@ -132,10 +133,10 @@
                                     </select>
                                     <div data-conv-fork="answer">
                                         <div data-conv-case="okay">
-                                              <input type="text" data-conv-question="No problem!">
+                                            <input type="text" data-conv-question="No problem!">
                                         </div>
                                         <div data-conv-case="question">
-                                              <input type="text" data-conv-question="Unfortunately, you cannot.">
+                                            <input type="text" data-conv-question="Unfortunately, you cannot.">
                                         </div>
                                     </div>
                                 </div>
@@ -152,8 +153,12 @@
                         window.open("https://localhost:7206/Home/GetAllComponents?category=GPU");
                         ready();
                     }
-                    function case(stateWrapper, ready) {
-                        window.open("https://localhost:7206/Home/GetAllComponents?category=Case");
+                    function ram(stateWrapper, ready) {
+                        window.open("https://localhost:7206/Home/GetAllComponents?category=GPU");
+                        ready();
+                    }
+                    function ssd(stateWrapper, ready) {
+                        window.open("https://localhost:7206/Home/GetAllComponents?category=GPU");
                         ready();
                     }
                 </script>
@@ -165,10 +170,6 @@
                             <h1 class="m-0">@ViewData["Title"]</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Starter Page</li>
-                            </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
