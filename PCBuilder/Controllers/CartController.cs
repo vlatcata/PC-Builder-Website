@@ -146,7 +146,7 @@ namespace PCBuilder.Controllers
 
             if (cartService.IsComponentInCart(user.Id, id))
             {
-                ViewData[MessageConstant.ErrorMessage] = "You already have component of this category";
+                return View("ErrorCustom", "Component is already in cart");
             }
 
             (var componentAdded, var categoryName) = await cartService.AddToCart(user.Id, id);
@@ -154,10 +154,6 @@ namespace PCBuilder.Controllers
             if (componentAdded)
             {
                 TempData[MessageConstant.SuccessMessage] = "Component added to cart";
-            }
-            else
-            {
-                TempData[MessageConstant.ErrorMessage] = "You already have component of this category";
             }
 
             return Redirect($"/Home/GetAllComponents?category={categoryName}");

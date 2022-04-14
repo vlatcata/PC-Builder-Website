@@ -24,7 +24,7 @@ namespace PCBuilder.Core.Models.Cart
         public string Manufacturer { get; set; }
 
         [Required]
-        [StringLength(250, ErrorMessage = "{0} cannot be empty or more than {1} symbols")]
+        [RegularExpression(@"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)", ErrorMessage = "{0} Must be a valid image adress")]
         public string ImageUrl { get; set; }
 
         [Required]

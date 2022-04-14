@@ -56,10 +56,6 @@ namespace PCBuilder.Infrastructure.Data
                 .HasOne(c => c.Component)
                 .WithMany(c => c.ComponentComputers)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //modelBuilder.Entity<Cart>()
-            //    .HasOne(a => a.TotalPrice)
-            //    .WithOne(x => x.User);
         }
     }
 }

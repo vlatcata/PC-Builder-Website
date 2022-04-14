@@ -118,7 +118,7 @@ namespace PCBuilder.Controllers
                 return View("AllComponents", components);
             }
 
-            return View("ErrorCustom");
+            return View("ErrorCustom", $"The {category} category is empty at the moment.");
         }
 
         public IActionResult Privacy()
