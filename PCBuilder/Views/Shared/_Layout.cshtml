@@ -113,7 +113,8 @@
                 <div class="chat_box">
                     <div class="conv-form-wrapper">
                         <form action="" method="get" class="hidden">
-                            <select name="category" data-conv-question="Hello, What do you need help with?">
+                            <input type="text" name="name" data-conv-question="Hello, can you tell me your name?">
+                            <select name="category" data-conv-question="Hello there {name}:0, what can I help you with?">
                                 <option value="productStock">I'm looking for components</option>
                                 <option value="computerQuestion">Can I build PC with my parts?</option>
                             </select>
