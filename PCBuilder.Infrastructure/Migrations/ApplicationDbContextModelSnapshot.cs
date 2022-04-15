@@ -174,7 +174,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.CartComponent", b =>
@@ -189,7 +189,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasIndex("ComponentId");
 
-                    b.ToTable("CartComponent");
+                    b.ToTable("CartComponent", (string)null);
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Category", b =>
@@ -205,7 +205,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
@@ -249,7 +249,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasIndex("ComputerId");
 
-                    b.ToTable("Components");
+                    b.ToTable("Components", (string)null);
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Computer", b =>
@@ -267,7 +267,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Computers");
+                    b.ToTable("Computers", (string)null);
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.ComputerComponent", b =>
@@ -282,7 +282,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasIndex("ComponentId");
 
-                    b.ToTable("ComputerComponent");
+                    b.ToTable("ComputerComponent", (string)null);
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", b =>
@@ -381,7 +381,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasIndex("ComponentId");
 
-                    b.ToTable("Specifications");
+                    b.ToTable("Specifications", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
