@@ -123,7 +123,7 @@
                                     <select data-conv-question="What are you looking for?">
                                         <option value="cpu" data-callback="cpu">cpu</option>
                                         <option value="gpu" data-callback="gpu">gpu</option>
-                                        <option value="ram" data-callback="ram">ram</option>
+                                        <option value="motherboard" data-callback="motherboard">motherboard</option>
                                         <option value="ssd" data-callback="ssd">ssd</option>
                                     </select>
                                 </div>
@@ -154,8 +154,8 @@
                         window.open("https://localhost:7206/Home/GetAllComponents?category=GPU");
                         ready();
                     }
-                    function ram(stateWrapper, ready) {
-                        window.open("https://localhost:7206/Home/GetAllComponents?category=GPU");
+                    function motherboard(stateWrapper, ready) {
+                        window.open("https://localhost:7206/Home/GetAllComponents?category=Motherboard");
                         ready();
                     }
                     function ssd(stateWrapper, ready) {
