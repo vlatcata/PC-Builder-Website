@@ -133,9 +133,7 @@ namespace PCBuilder.Test
                 Specifications = new List<SpecificationsViewModel>()
                 {
                     new SpecificationsViewModel(),
-                    new SpecificationsViewModel(),
                     new SpecificationsViewModel()
-
                 }
             };
 
