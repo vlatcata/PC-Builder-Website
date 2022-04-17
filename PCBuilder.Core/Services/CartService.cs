@@ -233,7 +233,7 @@ namespace PCBuilder.Core.Services
                 .Include(c => c.Category)
                 .FirstOrDefault();
 
-            var isInCart = cart.Components.Select(c => c.CategoryId == component.CategoryId).FirstOrDefault();
+            var isInCart = cart.Components.Any(c => c.CategoryId == component.CategoryId);
 
             return isInCart;
         }

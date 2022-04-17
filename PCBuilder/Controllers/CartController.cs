@@ -146,7 +146,7 @@ namespace PCBuilder.Controllers
 
             if (cartService.IsComponentInCart(user.Id, id))
             {
-                return View("ErrorCustom", "Component is already in cart");
+                return View("ErrorCustom", "Component of this category is already in cart");
             }
 
             (var componentAdded, var categoryName) = await cartService.AddToCart(user.Id, id);
